@@ -1,0 +1,35 @@
+edition: 1.0.0
+name: scstm-server
+
+
+
+services:
+  framework: scstm-server-m
+  component: fc 
+    actions:       
+      pre-deploy: 
+        - run: pip3 install -r requirements.txt -t .     
+          path: ./Src/Server                                  
+    props: 
+      region: ${vars.region}       
+      service: ${vars.service}
+      function:
+        name: "{{ functionName }}"
+        description: ''
+        codeUri: './Src/Server'
+        runtime: python3.9
+        handler: app.app
+        timeout: 60
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+      customDomains:
+        - domainName: auto
+          protocol: HTTP
+          routeConfigs:
+            - path: '/*'
