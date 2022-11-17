@@ -1,0 +1,8 @@
+__pycache__
+Include
+Lib
+Scripts
+pyvenv.cfg
+
+# secert data
+secert.py

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/newsbox">
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/DarkGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/newdetail_header_back"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:rotation="180"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:srcCompat="@drawable/iconrightarrow" />
+
+    <TextView
+        android:id="@+id/newdetail_header_text"
+        android:layout_width="358dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="新闻详情"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/newdetail_header_back"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/newdetail_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="距离第八届全国青年科普创新实验暨作品大赛（四川赛区）的作品提交截止时间还有1天！\n 6月11日即将关闭大赛官网的作品上传通道，\n 请各参赛队伍尽快完成作品上传！\n 赛事安排一、作品提交截止时间：\n \n 作品提交截止时间为6月11日23时二、\n \n \n 初赛评审时间：评审时间为6月12日三、\n \n 复赛现场时间：复赛时间为6月18日（报到）、6月19日（比赛）参赛队伍请尽快登录大赛官方网站\n（http://kepudasai.cdstm.cn/）提交作品。\n "
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
