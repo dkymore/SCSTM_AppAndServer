@@ -8,6 +8,11 @@ import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.dkymore.myscstm.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +66,28 @@ public class CommonTools {
         return bitmap;
     }
 
+    public static void popInfoDialog(Context context,String title,String message){
+        new AlertDialog.Builder(context)
+                //标题
+                .setTitle("title")
+                //内容
+                .setMessage("message")
+                //图标
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton("确认", null)
+                .create().show();
+    }
 
+    public static void toastMake(Context context,String message){
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+    }
+
+    public static void CommonError(Context context){
+        toastMake(context,"网络错误");
+    }
+
+    public static String buildPartInfo(String part,String person){
+        return new StringBuilder(part.equals("0")?"上午场":"下午场").append(" "+person).append("人").toString();
+    }
 
 }

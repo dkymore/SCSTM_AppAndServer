@@ -17,6 +17,7 @@ public class Chooser2 {
     private TextView comp1;
     private TextView comp2;
     private Context context;
+    public boolean isLeft;
 
     public Chooser2(Context context, TextView comp1, TextView comp2,Callback callback){
         this.comp1 = comp1;
@@ -26,11 +27,13 @@ public class Chooser2 {
 
         comp1.setOnClickListener(view -> {
             activeLeft();
+            isLeft = true;
             callback.Invoke(true);
         });
 
         comp2.setOnClickListener(view -> {
             activeRight();
+            isLeft = false;
             callback.Invoke(false);
         });
 

@@ -29,13 +29,13 @@ def isUser():
     if re.match("^[a-zA-Z0-9_-]{4,16}$",username):
         pass
     else:
-        return jsonify({'code':60204,'message': '用户名错误','data':'error'})
+        return jsonify({'code':20000,'message': '用户名错误','data':'error'})
     sql = ''' SELECT `username` FROM user WHERE username = %s '''
     db = db_sql()
     res = db.read_sql(sql,value=(username))
     if res:
         return jsonify({'code':20000,'message': '成功','data':'true'})
-    return jsonify({'code':60204,'message': '用户未注册','data':'false'})
+    return jsonify({'code':20000,'message': '用户未注册','data':'false'})
 
 def login():
     data = request.get_json(silent=True)
@@ -48,7 +48,7 @@ def login():
     if re.match("^[a-zA-Z0-9_-]{4,16}$",username) and re.match("^[a-zA-Z0-9._-~!@#$^&*]{4,16}$",password):
         pass
     else:
-        return jsonify({'code':60204,'message': '用户名密码错误','data':''})
+        return jsonify({'code':20000,'message': '用户名密码错误','data':''})
 
     sql = ''' SELECT `passwd` FROM user WHERE username = %s '''
     db = db_sql()
@@ -77,6 +77,18 @@ def logup():
 
 def logout():
     return jsonify({'code':20000,'message': '成功','data':''})
+
+def getId():
+    username = request.args.get("username")
+    if re.match("^[a-zA-Z0-9_-]{4,16}$",username):
+        pass
+    else:
+        return jsonify({'code':20000,'message': '用户名错误','data':'error'})
+    sql = ''' SELECT `id` FROM user WHERE username = %s '''
+    db = db_sql()
+    res = db.read_sql(sql,value=(username))
+    if res:
+        return jsonify({'code':20000,'message': '成功','data':res[0]['id']})
 
 
 """

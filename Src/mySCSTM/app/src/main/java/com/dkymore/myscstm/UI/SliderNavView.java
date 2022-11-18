@@ -21,14 +21,12 @@ public class SliderNavView {
         slider.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
             }
 
             @Override
             public void onDrawerOpened(@NonNull View drawerView) {
                 isOpen = true;
                 Update();
-
             }
 
             @Override

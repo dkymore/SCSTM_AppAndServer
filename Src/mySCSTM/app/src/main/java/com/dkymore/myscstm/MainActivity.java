@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.telecom.Call;
 
+import com.dkymore.myscstm.Data.Player;
 import com.dkymore.myscstm.UI.HeaderView;
 import com.dkymore.myscstm.UI.SliderNavView;
 import com.dkymore.myscstm.Utils.DataProvider;
@@ -33,19 +34,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DataProvider.Init(this);
-
-        PageManager.instance.Init(this);
-        PageManager.instance.startToPage();
-        HeaderView.instance.Init(this);
-        SliderNavView.instance.Init(this);
-        PersonalManager.instance.Init(this);
-        SCSTMTimeManager.Init();
 
         updateHandler = new Handler();
         updateHandler.removeCallbacks(updateThread);
         updateHandler.post(updateThread);
 
+        PageManager.instance.Init(this);
+        HeaderView.instance.Init(this);
+        SliderNavView.instance.Init(this);
+        PersonalManager.instance.Init(this);
+        SCSTMTimeManager.Init();
+
+        DataProvider.Init(this);
+        Player.player.Init(this);
+
+        PageManager.instance.startToPage();
     }
 
     @Override

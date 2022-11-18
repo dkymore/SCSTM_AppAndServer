@@ -47,7 +47,7 @@ public class ReserveArea {
     private Fragment fragment;
     private CommonTools.findViewHelper finder;
     private List<DPack> ableCards;
-    private String CurrDateTime = "";
+    public String CurrDateTime = "";
 
     public ReserveArea(Fragment fragment ,CommonTools.findViewHelper findView){
         this.fragment = fragment;

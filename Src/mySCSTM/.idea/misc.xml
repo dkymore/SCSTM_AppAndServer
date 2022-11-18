@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable/ic_chooser_background.xml" value="0.17" />
+        <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable/ic_div_h_line.xml" value="0.4195" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable/ic_div_line.xml" value="0.1" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable/ic_info_button.xml" value="0.17" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17" />
@@ -23,6 +24,7 @@
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/ic_main_button.xml" value="0.5526041666666667" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/item_newcard.xml" value="0.9" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/item_news.xml" value="0.9" />
+        <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/item_reserve.xml" value="1.024390243902439" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/item_showup.xml" value="1.5" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/layout_header.xml" value="0.67" />
         <entry key="..\:/Projects/22.11.2_android_big_work/Src/mySCSTM/app/src/main/res/layout/slider_nav_view.xml" value="0.4606399187404774" />
