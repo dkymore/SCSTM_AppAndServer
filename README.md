@@ -1,16 +1,13 @@
 # 四川科技馆APP
 
 ## 效果
-<div style="display: flex;flex-wrap: nowrap;flex-direction: row;">
-<img src="./Plan/Show/1.jpg" alt="image"/>
-<img src="./Plan/Show/2.jpg" alt="image"/>
-<img src="./Plan/Show/3.jpg" alt="image"/>
-<img src="./Plan/Show/4.jpg" alt="image"/>
-<img src="./Plan/Show/5.jpg" alt="image"/>
-<img src="./Plan/Show/6.jpg" alt="image"/>
-<img src="./Plan/Show/7.jpg" alt="image"/>
-<img src="./Plan/Show/8.jpg" alt="image"/>
-</div>
+| 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+|  <img src="./Plan/Show/1.jpg" alt="image"/>    |  <img src="./Plan/Show/2.jpg" alt="image"/>    |  <img src="./Plan/Show/3.jpg" alt="image"/>    |     <img src="./Plan/Show/4.jpg" alt="image"/> |    <img src="./Plan/Show/5.jpg" alt="image"/>  |  <img src="./Plan/Show/6.jpg" alt="image"/>    |   <img src="./Plan/Show/7.jpg" alt="image"/>   |     <img src="./Plan/Show/8.jpg" alt="image"/> |
+
+
+
+
 
 
 ## 设计
