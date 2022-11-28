@@ -17,6 +17,7 @@ import com.dkymore.myscstm.UI.Utils.ReserveArea;
 import com.dkymore.myscstm.Utils.CommonTools;
 import com.dkymore.myscstm.Utils.MyFragment;
 import com.dkymore.myscstm.Utils.PageManager;
+import com.dkymore.myscstm.Utils.PersonalManager;
 import com.dkymore.myscstm.databinding.FragmentReservePageBinding;
 import com.sxu.shadowdrawable.ShadowDrawable;
 
@@ -45,17 +46,26 @@ public class ReserveFragment extends MyFragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentReservePageBinding.inflate(inflater, container, false);
 
-        switchType(reserveUIType.Normal);
+        switchType(reserveUIType.NoLogin);
         View root = binding.getRoot();
 
+        Start();
         return root;
+    }
+
+    @Override
+    public void Start(){
+        if(Player.player.isLogin()){
+            switchType(reserveUIType.Normal);
+        }else{
+            switchType(reserveUIType.NoLogin);
+        }
     }
 
     private void ReserveAreaInit(){
         reserveArea = new ReserveArea(this, (id) -> {
             return binding.getRoot().findViewById(id);
         });
-
     }
 
     public void switchType(reserveUIType type){
@@ -91,16 +101,17 @@ public class ReserveFragment extends MyFragment {
 
     private void checkAndCommit(){
         Player.player.rqh.setReserves(
-                Player.player.playerId,
+                Player.player.username,
                 reserveArea.CurrDateTime,
-                part.isLeft ? "0" : "1",
-                "" + person.currentChoose,
+                (double) person.currentChoose,
+                part.isLeft ? 0d : 1d,
                 "",
                 new RequestHelper.Callback<String>() {
                     @Override
                     public void Success(String o) {
                         PageManager.instance.changeToPage("Main");
                         CommonTools.toastMake(getContext(),"预约成功");
+                        PersonalManager.instance.UpdateReserveList();
                     }
 
                     @Override

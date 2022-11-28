@@ -3,9 +3,12 @@ package com.dkymore.myscstm.Data;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedHashTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +73,8 @@ public class RequestHelper {
     class Parser<T>{
         DataPack<T> parseJson(String json){
             return (new Gson()).fromJson(json,new TypeToken<DataPack<T>>(){}.getType());
+            //return (new Gson()).fromJson(json,new TypeToken<DataPack<TypeToken.getParameterized(ArrayList.class, myClass).getType()>>(){}.getType());
+
         }
 
         okhttp3.Callback callbackPacker(Callback<T> callback){
@@ -77,18 +82,28 @@ public class RequestHelper {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
-                    callback.Error();
+                    Player.player.RunOnUI(()->{
+                        callback.Error();
+                    });
+
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.i("Request On",response.body().string());
-                    DataPack<T> dp = parseJson(response.body().string());
+                    String data = response.body().string();
+                    //Log.i("Request On",data);
+                    Log.i("Request","URL:"+response.request().url()+" "+data);
+                    DataPack<T> dp = parseJson(data);
+                    Log.i("Data message is ",dp.message);
                     if(dp.code.equals("20000")){
-                        callback.Success(dp.data);
+                        Player.player.RunOnUI(()->{
+                            callback.Success(dp.data);
+                        });
                     }else{
-                        OnCodeError(dp.code);
-                        callback.Failed(dp.message,dp.code);
+                        Player.player.RunOnUI(()->{
+                            OnCodeError(dp.code);
+                            callback.Failed(dp.message,dp.code);
+                        });
                     }
                 }
             };
@@ -126,17 +141,36 @@ public class RequestHelper {
     public Call getID(String username,Callback callback){
         Map<String,String> params = new HashMap<String,String>();
         params.put("username",username);
-        return postQuery(addBaseUrl("/user/getId"),params,new Parser<Integer>().callbackPacker(callback));
+        return postQuery(addBaseUrl("/user/getId"),params,new Parser<Double>().callbackPacker(callback));
     }
 
     public Call getReserves(String username,Callback callback){
         Map<String,String> params = new HashMap<String,String>();
         params.put("username",username);
-        return postQuery(addBaseUrl("/api/getReserves"),params,new Parser<List<reserveData>>().callbackPacker(callback));
+        return postQuery(addBaseUrl("/api/getReserves"),params,new Parser<ArrayList<LinkedHashTreeMap>>().callbackPacker(callback));
     }
 
-    public Call setReserves(int userid,String time,String person , String part,String desp,Callback callback){
-        return postJSON(addBaseUrl("/api/setReserves"),(new Gson()).toJson(new reserveData(userid,time,person,part,desp)),new Parser<String>().callbackPacker(callback));
+    //public Call setReserves(Double userid,String time,Double person , Double part,String desp,Callback callback){
+    //    return postJSON(addBaseUrl("/api/setReserves"),(new Gson()).toJson(new reserveData(userid,time,person,part,desp)),new Parser<String>().callbackPacker(callback));
+    //}
+
+    public void setReserves(String username,String time,Double person , Double part,String desp,Callback callback){
+        getID(username, new Callback<Double>() {
+            @Override
+            public void Success(Double o) {
+                postJSON(addBaseUrl("/api/setReserves"),(new Gson()).toJson(new reserveData(o,time,person,part,desp)),new Parser<String>().callbackPacker(callback));
+            }
+
+            @Override
+            public void Error() {
+                callback.Error();
+            }
+
+            @Override
+            public void Failed(String message, String code) {
+                callback.Failed(message,code);
+            }
+        });
     }
 
     public Call cancelReserves(int id,Callback callback){
@@ -169,27 +203,27 @@ public class RequestHelper {
 
     public class UserDataPack{
         public String username;
-        public String passwd;
+        public String password;
         public String name;
         public String phone;
 
-        public UserDataPack(String username, String passwd, String name, String phone) {
+        public UserDataPack(String username, String password, String name, String phone) {
             this.username = username;
-            this.passwd = passwd;
+            this.password = password;
             this.name = name;
             this.phone = phone;
         }
     }
 
     public class reserveData{
-        public int id;
-        public int userid;
+        public Double id;
+        public Double userid;
         public String time;
-        public String person;
-        public String part;
+        public Double person;
+        public Double part;
         public String desp;
 
-        public reserveData(int id, int userid, String time, String person, String part, String desp) {
+        public reserveData(Double id, Double userid, String time, Double person, Double part, String desp) {
             this.id = id;
             this.userid = userid;
             this.time = time;
@@ -198,8 +232,8 @@ public class RequestHelper {
             this.desp = desp;
         }
 
-        public reserveData(int userid, String time, String person, String part, String desp) {
-            this.id = 0;
+        public reserveData(Double userid, String time, Double person, Double part, String desp) {
+            this.id = 0d;
             this.userid = userid;
             this.time = time;
             this.person = person;

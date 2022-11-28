@@ -83,7 +83,7 @@ def getId():
     if re.match("^[a-zA-Z0-9_-]{4,16}$",username):
         pass
     else:
-        return jsonify({'code':20000,'message': '用户名错误','data':'error'})
+        return jsonify({'code':20000,'message': '用户名错误','data':-1})
     sql = ''' SELECT `id` FROM user WHERE username = %s '''
     db = db_sql()
     res = db.read_sql(sql,value=(username))

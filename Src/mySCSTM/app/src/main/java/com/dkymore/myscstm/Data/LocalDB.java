@@ -14,6 +14,6 @@ public class LocalDB {
     }
 
     public void Set(String key,String value){
-        sharedPreferences.edit().putString(key, value).commit();
+        sharedPreferences.edit().putString(key, value).apply();
     }
 }

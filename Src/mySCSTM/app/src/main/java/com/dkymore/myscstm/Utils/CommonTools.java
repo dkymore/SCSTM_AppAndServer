@@ -19,6 +19,8 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import xdroid.toaster.Toaster;
+
 public class CommonTools {
     public interface findViewHelper{
         View Invoke(int id);
@@ -79,7 +81,9 @@ public class CommonTools {
     }
 
     public static void toastMake(Context context,String message){
-        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
+        Toaster.toast(message);
+//        context.
+//        Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
 
     public static void CommonError(Context context){
@@ -87,7 +91,7 @@ public class CommonTools {
     }
 
     public static String buildPartInfo(String part,String person){
-        return new StringBuilder(part.equals("0")?"上午场":"下午场").append(" "+person).append("人").toString();
+        return new StringBuilder(part.equals("1")?"上午场":"下午场").append(" "+person).append("人").toString();
     }
 
 }

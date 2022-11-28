@@ -19,6 +19,7 @@ import com.dkymore.myscstm.UI.Utils.Chooser2;
 import com.dkymore.myscstm.Utils.CommonTools;
 import com.dkymore.myscstm.Utils.MyFragment;
 import com.dkymore.myscstm.Utils.PageManager;
+import com.dkymore.myscstm.Utils.PersonalManager;
 import com.dkymore.myscstm.databinding.FragmentLoginandlogupBinding;
 import com.sxu.shadowdrawable.ShadowDrawable;
 
@@ -142,7 +143,11 @@ public class LoginAndLogupFragment extends MyFragment {
         String username = binding.loginUsername.getText().toString();
         String passwd = binding.loginPasswd.getText().toString();
         //验证
-        Player.player.Login(getContext(),username,passwd,()->{PageManager.instance.changeToPage("Main");});
+        Player.player.Login(getContext(),username,passwd,()->{
+            PageManager.instance.changeToPage("Main");
+            CommonTools.toastMake(getContext(),"登录成功");
+            PersonalManager.instance.UpdateReserveList();
+        });
     }
 
      void LogUp(){
@@ -152,7 +157,11 @@ public class LoginAndLogupFragment extends MyFragment {
                  binding.loginConfimpasswp.getText().toString(),
                  binding.loginId.getText().toString(),
                  binding.loginPhonenum.getText().toString(),
-                 ()->{PageManager.instance.changeToPage("Main");});
+                 ()->{
+                     PageManager.instance.changeToPage("Main");
+                     CommonTools.toastMake(getContext(),"注册成功");
+                     PersonalManager.instance.UpdateReserveList();
+                 });
     }
 
     public void isUser(Context context, String username){

@@ -35,6 +35,7 @@ public class Player {
     public RequestHelper rqh;
 
     public LocalDB localDB;
+    private MainActivity main;
 
     Player() {
         rqh = new RequestHelper(getServerUrl());
@@ -42,7 +43,9 @@ public class Player {
 
     public void Init(MainActivity main){
         localDB = new LocalDB(main.getSharedPreferences("data",Context.MODE_PRIVATE));
+        this.main = main;
         GetToken(main.getApplicationContext());
+
     }
 
     public void Login(Context context,String _username,String password,DoNext doNext){
@@ -50,6 +53,7 @@ public class Player {
             @Override
             public void Success(String o) {
                 username = _username;
+                getID(context,username);
                 TokenSet(o);
                 doNext.Invoke();
             }
@@ -107,42 +111,48 @@ public class Player {
     }
 
     public void getID(Context context,String username){
-        rqh.getID(username, new RequestHelper.Callback<Integer>() {
+        rqh.getID(username, new RequestHelper.Callback<Double>() {
             @Override
-            public void Success(Integer o) {
-                playerId = o;
+            public void Success(Double o) {
+                playerId =o.intValue();
                 return;
             }
 
             @Override
             public void Error() {
                 CommonTools.CommonError(context);
+                TokenExpire();
             }
 
             @Override
             public void Failed(String message, String code) {
                 CommonTools.toastMake(context,message);
+                TokenExpire();
             }
         });
     }
 
     public void GetToken(Context context){
-        String token = localDB.Get("Token");
-        if(token.isEmpty()){TokenExpire();return; }
-
-        rqh.IsUser("", new RequestHelper.Callback() {
-            @Override
-            public void Success(Object o) {
-            }
-
-            @Override
-            public void Error() {
-            }
-
-            @Override
-            public void Failed(String message, String code) {
-            }
-        });
+        TokenExpire();
+//        String token = localDB.Get("Token");
+//        if(token.isEmpty()){TokenExpire();return; }
+//        PlayerToken = token;
+//        isLogin = true;
+//
+//        rqh.IsUser("", new RequestHelper.Callback() {
+//            @Override
+//            public void Success(Object o) {
+//                PersonalManager.instance.UpdateReserveList();
+//            }
+//
+//            @Override
+//            public void Error() {
+//            }
+//
+//            @Override
+//            public void Failed(String message, String code) {
+//            }
+//        });
     }
 
     public void TokenSet(String Token){
@@ -157,5 +167,17 @@ public class Player {
         PersonalManager.instance.switchType(PersonalManager.Type.NoUser);
     }
 
+    public interface RunUI{
+        void Invoke();
+    }
+
+    public void RunOnUI(RunUI runUI){
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                runUI.Invoke();
+            }
+        });
+    }
 
 }

@@ -3,6 +3,7 @@ package com.dkymore.myscstm.Utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -24,8 +25,11 @@ import com.dkymore.myscstm.Data.RequestHelper;
 import com.dkymore.myscstm.MainActivity;
 import com.dkymore.myscstm.R;
 import com.dkymore.myscstm.UI.SliderNavView;
+import com.google.gson.internal.LinkedHashTreeMap;
+import com.google.gson.internal.LinkedTreeMap;
 import com.sxu.shadowdrawable.ShadowDrawable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PersonalManager {
@@ -68,6 +72,7 @@ public class PersonalManager {
                 infoBox.setVisibility(View.VISIBLE);
                 infoBoxButton.setVisibility(View.INVISIBLE);
                 infoBoxText.setText("Loading");
+                reserveList.setVisibility(View.INVISIBLE);
                 break;
             case NoUser:
                 logoutButton.setVisibility(View.INVISIBLE);
@@ -78,6 +83,7 @@ public class PersonalManager {
                 infoBoxButton.setOnClickListener(view -> {
                     PageManager.instance.changeToPage("Login");
                 });
+                reserveList.setVisibility(View.INVISIBLE);
                 break;
             case NoReserve:
                 logoutButton.setVisibility(View.VISIBLE);
@@ -88,22 +94,25 @@ public class PersonalManager {
                 infoBoxButtonText.setText("预约");
                 infoBoxButton.setOnClickListener(view -> {PageManager.instance.changeToPage("Reserve");});
                 logoutButton.setOnClickListener(view -> {Player.player.Logout(main.getApplicationContext());});
+                reserveList.setVisibility(View.INVISIBLE);
                 break;
             case FullDataLoading:
                 switchType(Type.Loading);
-                UpdateReserveList();
+                //UpdateReserveList();
             case FullData:
+                infoBox.setVisibility(View.INVISIBLE);
                 logoutButton.setVisibility(View.VISIBLE);
                 logoutButton.setOnClickListener(view -> Player.player.Logout(main.getApplicationContext()));
-                UpdateReserveList();
+                reserveList.setVisibility(View.VISIBLE);
+                //UpdateReserveList();
                 break;
         }
     }
 
-    private void UpdateReserveList(){
-        Player.player.rqh.getReserves(Player.player.username, new RequestHelper.Callback<List<RequestHelper.reserveData>>() {
+    public void UpdateReserveList(){
+        Player.player.rqh.getReserves(Player.player.username, new RequestHelper.Callback<ArrayList<LinkedTreeMap>>() {
             @Override
-            public void Success(List<RequestHelper.reserveData> o) {
+            public void Success(ArrayList<LinkedTreeMap> o) {
                 _UpdateReserveList(o);
             }
 
@@ -119,7 +128,14 @@ public class PersonalManager {
         });
     }
 
-    private void _UpdateReserveList(List<RequestHelper.reserveData> datas){
+    private void _UpdateReserveList(List<LinkedTreeMap> datas){
+        if(datas.size()==0){
+            switchType(Type.NoReserve);
+            return;
+        }
+
+        switchType(Type.FullData);
+
         reserveList.setLayoutManager(new LinearLayoutManager(main.getApplicationContext()));
         reserveList.setAdapter(new RecyclerView.Adapter() {
             class ViewHolder extends RecyclerView.ViewHolder{
@@ -145,21 +161,28 @@ public class PersonalManager {
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
                 ViewHolder h = (ViewHolder) holder;
-                RequestHelper.reserveData data = datas.get(position);
+                LinkedTreeMap data = datas.get(position);
 
-                ShadowDrawable.setShadowDrawable(h.layout,CommonTools.dpToPx(main.getApplicationContext(),4), Color.parseColor("#66000000"),CommonTools.dpToPx(main.getApplicationContext(),0),0,0);
+                ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(h.layout.getLayoutParams());
+                lp.setMargins(0,0,0,20);
+                h.layout.setLayoutParams(lp);
+                ShadowDrawable.setShadowDrawable(h.layout,Color.parseColor("#C2C2C2"),CommonTools.dpToPx(main.getApplicationContext(),4), Color.parseColor("#66000000"),CommonTools.dpToPx(main.getApplicationContext(),4),0,0);
                 h.layout.setOnLongClickListener(view -> {
-                    new AlertDialog.Builder(main.getApplicationContext())
+                    AlertDialog dialog = new AlertDialog.Builder(main)
                             .setMessage("确认取消该预约？")
-                            .setPositiveButton("确认",(dialogInterface,i)->{
-                                CancelReserve(main.getApplicationContext(),data.id);
+                            .setPositiveButton("确认取消",(dialogInterface,i)->{
+                                CancelReserve(main.getApplicationContext(),((Double)data.get("id")).intValue());
                                 dialogInterface.dismiss();
                             })
-                            .create().show();
+                            .setNegativeButton("不取消",((dialogInterface, i) -> {
+                                dialogInterface.dismiss();
+                            }))
+                            .create();
+                    dialog.show();
                     return true;
                 });
-                h.time.setText(data.time);
-                h.part.setText(CommonTools.buildPartInfo(data.part,data.person));
+                h.time.setText((String)data.get("time"));
+                h.part.setText(CommonTools.buildPartInfo(((Double)data.get("part")).intValue()+"",((Double)data.get("person")).intValue()+""));
             }
 
             @Override
