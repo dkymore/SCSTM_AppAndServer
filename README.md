@@ -1,11 +1,26 @@
 # 四川科技馆APP
 
+## 说明
+
+本项目是模仿四川科技馆手机官网的一个安卓项目并附带简易后端
+
+旨在通过本项目学习安卓开发 
+
+您可以在下方的[开发教程](#开发教程)找到文章教程 (目前还在完善 (~~如果我不咕咕咕的话~~))
+
+APP使用 Android Studio + JAVA 开发
+
+简易后端使用 python flask + mysql 开发 
+
+
+
 ## 效果
+
 | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 |  <img src="./Plan/Show/1.jpg" alt="image"/>    |  <img src="./Plan/Show/2.jpg" alt="image"/>    |  <img src="./Plan/Show/3.jpg" alt="image"/>    |     <img src="./Plan/Show/4.jpg" alt="image"/> |    <img src="./Plan/Show/5.jpg" alt="image"/>  |  <img src="./Plan/Show/6.jpg" alt="image"/>    |   <img src="./Plan/Show/7.jpg" alt="image"/>   |     <img src="./Plan/Show/8.jpg" alt="image"/> |
 
-
+您可以在 [release]() 页面查看demo 下载 APP体验
 
 
 
@@ -63,6 +78,18 @@ SecertToken = r""
 #### serveless 部署
 
 以阿里云serveless为例 请参考项目下的`s.yaml`
+
+
+
+## TODO
+
+- 完善代码注释
+- 使用更好的阴影库
+- 完善预约相关的网络请求
+- 完善后端的部署相关事项
+
+
+
 
 ## 开发教程
 
@@ -125,6 +152,15 @@ SecertToken = r""
     │      themes.xml
 ```
 
+### 后端文件结构
+
+```tree
+│  app.py 主要的文件
+│  db.py 数据库模块
+│  permission.py 用户登录及相关权限
+│  requirements.txt 需要安装的模块
+│  secert.py mysql服务器数据
+```
 
 
- ### 
+
