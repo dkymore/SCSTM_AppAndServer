@@ -43,6 +43,8 @@ public class LoginAndLogupFragment extends MyFragment {
 
     private boolean sex;
 
+    Chooser2 sexChooser;
+
 //    LoginAndLogupFragment(){
 //        PageManager.instance.AddFragment(this);
 //    }
@@ -77,6 +79,7 @@ public class LoginAndLogupFragment extends MyFragment {
                 binding.loginSex.setVisibility(View.INVISIBLE);
 
                 lp.setMargins(0,CommonTools.dpToPx(getContext(),28),0,0);
+                //binding.loginUsername.setOnClickListener(view -> {});
                 binding.loginButton.setLayoutParams(lp);
                 binding.loginButton.setText("下一步");
                 binding.loginButton.setOnClickListener(view -> isUser(getContext(),binding.loginUsername.getText().toString()));
@@ -99,11 +102,17 @@ public class LoginAndLogupFragment extends MyFragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                     }
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-
+                        if(!isThrottle()){
+                            isUser(getContext(),binding.loginUsername.getText().toString());
+                            switchType(loginUIType.Username);
+                        }else{
+                            //CommonTools.toastMake(getContext(),"isThrottle");
+                        }
                     }
                 });
                 break;
@@ -113,7 +122,8 @@ public class LoginAndLogupFragment extends MyFragment {
                 binding.loginId.setVisibility(View.VISIBLE);
                 binding.loginPhonenum.setVisibility(View.VISIBLE);
                 binding.loginSex.setVisibility(View.VISIBLE);
-                new Chooser2(getContext(),binding.loginSexBoy,binding.loginSexGirl,(isLeft)->{sex=isLeft;});
+
+                sexChooser = new Chooser2(getContext(),binding.loginSexBoy,binding.loginSexGirl,(isLeft)->{sex=isLeft;});
 
                 lp.setMargins(0,CommonTools.dpToPx(getContext(),400),0,0);
                 binding.loginButton.setLayoutParams(lp);
@@ -132,11 +142,28 @@ public class LoginAndLogupFragment extends MyFragment {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-
+                        if(!isThrottle()){
+                            isUser(getContext(),binding.loginUsername.getText().toString());
+                            switchType(loginUIType.Username);
+                        }else{
+                            //CommonTools.toastMake(getContext(),"isThrottle");
+                        }
                     }
                 });
                 break;
         }
+    }
+
+    public void resetComps(){
+        binding.loginUsername.setText("");
+        binding.loginPasswd.setText("");
+        binding.loginConfimpasswp.setText("");
+        binding.loginId.setText("");
+        binding.loginPhonenum.setText("");
+        if(sexChooser!=null){
+            sexChooser.reset();
+        }
+
     }
 
     void LogIn(){
@@ -165,6 +192,7 @@ public class LoginAndLogupFragment extends MyFragment {
     }
 
     public void isUser(Context context, String username){
+        if(username.isEmpty()){return;}
         new RequestHelper(Player.player.getServerUrl()).IsUser(username, new RequestHelper.Callback<String>() {
             @Override
             public void Success(String o) {
@@ -191,4 +219,28 @@ public class LoginAndLogupFragment extends MyFragment {
         });
     }
 
+    @Override
+    public void Start(){
+        resetComps();
+        switchType(loginUIType.Username);
+    }
+
+    private boolean throttle = false;
+
+    public boolean isThrottle(){
+        if(throttle){return true;}
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                throttle = false;
+            }
+        }).start();
+        throttle = true;
+        return false;
+    }
 }

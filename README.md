@@ -10,7 +10,7 @@
 
 APP使用 Android Studio + JAVA 开发
 
-简易后端使用 python flask + mysql 开发 
+简易后端使用 python3.9 flask + mysql 开发 
 
 
 

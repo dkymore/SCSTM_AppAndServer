@@ -105,4 +105,8 @@ public class Chooser2 {
                 0, 0
         );
     }
+
+    public void reset(){
+        activeNo();
+    }
 }
