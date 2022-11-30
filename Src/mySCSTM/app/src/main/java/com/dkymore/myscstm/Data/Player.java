@@ -132,6 +132,7 @@ public class Player {
         });
     }
 
+    // 为了方便显示效果 token不会存储
     public void GetToken(Context context){
         TokenExpire();
 //        String token = localDB.Get("Token");
